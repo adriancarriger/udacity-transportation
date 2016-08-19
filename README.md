@@ -4,7 +4,7 @@ This is my second of five projects in the Udacity [Senior Web Developer Nanodegr
 
 ## Description
 
-xyz and meet the other [requirements](REQUIREMENTS.md) of the course.
+An app that allows users to select a departure and arrival train station and meet the other [requirements](REQUIREMENTS.md) of the course.
 
 ## Tech Stack
 
