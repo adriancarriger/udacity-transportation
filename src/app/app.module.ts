@@ -1,19 +1,22 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ApplicationRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
+import { routes } from './app.routes';
+
+import { HomeModule } from './+home/home.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot(routes),
+    HomeModule,
+    SharedModule.forRoot()
+  ],
   declarations: [
     AppComponent
   ],
-  imports: [
-    BrowserModule,
-    CommonModule,
-    FormsModule
-  ],
-  providers: [],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

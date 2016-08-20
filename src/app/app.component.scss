@@ -1,0 +1,21 @@
+$defaultFooterHeight: 40px;
+$navHeight: 40px;
+.wrapper {
+  position: relative;
+  min-height: 100%;
+  .content-container {
+    display: block;
+    padding-bottom: $defaultFooterHeight + 40px;
+    .content-area {
+      padding-top: $navHeight;
+    }
+  }
+  app-footer {
+    height: $defaultFooterHeight;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+  }
+}
