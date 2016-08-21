@@ -3,3 +3,4 @@
  */
 export { NavbarComponent } from './navbar/index';
 export { FooterComponent } from './footer/index';
+export { ScheduleService } from './schedule/index';

@@ -4,24 +4,47 @@
   <div class="input-area">
     <div class="input-item left">
       <label for="departing">Departing from</label>
-      <select id="departing" class="departing">
-        <option>Los Angeles</option>
+      <select id="departing" class="departing" tabindex="10">
+        <option>San Francisco</option>
       </select>
     </div>
     <div class="input-item right">
       <label for="arriving">Arriving to</label>
-      <select id="arriving" class="arriving">
-        <option>San Francisco</option>
+      <select id="arriving" class="arriving" tabindex="10">
+        <option>Mountain View</option>
       </select>
     </div>
   </div>
 </div>
 <div class="train-route">
   <h2>Next Available Train</h2>
-  <div class="route-meta">Today departing at 1:30pm from Los Angeles</div>
-  <div class="route-meta">Arriving at 2:00pm at San Francisco</div>
-  <div class="route-info">
-    
+  <div class="route-meta">Today departing at 1:30am from San Francisco</div>
+  <div class="route-meta">Arriving at 2:00pm at Mountain View</div>
+  <div class="route-info container">
+    <h3>Weekdays</h3>
+    <div class="row header-row">
+      <div class="col-xs-4">Depart time</div>
+      <div class="col-xs-4">Arrival time</div>
+      <div class="col-xs-4">Stops</div>
+    </div>
+    <div *ngFor="let route of schedule.weekdayRoutes()" class="row">
+      <div class="col-xs-4">{{route.departure}}</div>
+      <div class="col-xs-4">{{route.arrival}}</div>
+      <div class="col-xs-4">{{route.stops}}</div>
+    </div>
+  </div>
+  <div class="route-info container">
+    <h3>Weekends</h3>
+    <div class="row header-row">
+      <div class="col-xs-4">Depart time</div>
+      <div class="col-xs-4">Arrival time</div>
+      <div class="col-xs-4">Stops</div>
+    </div>
+    <div *ngFor="let route of schedule.weekendRoutes()" class="row">
+      <div class="col-xs-4">{{route.departure}}</div>
+      <div class="col-xs-4">{{route.arrival}}</div>
+      <div class="col-xs-4">{{route.stops}}</div>
+    </div>
   </div>
 </div>
 <div class="default-schedule">

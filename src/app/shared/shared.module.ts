@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { NavbarComponent } from './navbar/index';
 import { FooterComponent } from './footer/index';
+import { ScheduleService } from './schedule/index';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -20,7 +21,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: []
+      providers: [ScheduleService]
     };
   }
 }

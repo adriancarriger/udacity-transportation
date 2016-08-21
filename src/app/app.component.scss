@@ -9,9 +9,6 @@ html, body {
   .content-container {
     display: block;
     padding-bottom: $defaultFooterHeight + 40px;
-    .content-area {
-      padding-top: $navHeight;
-    }
   }
   app-footer {
     position: absolute;

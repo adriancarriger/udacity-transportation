@@ -1,6 +1,6 @@
 @import '../styles/variables';
 .header {
-  height: 300px;
+  height: 350px;
   background-color: gray;
   background-image: url('app/assets/train.jpg');
   background-size: cover;
@@ -15,14 +15,20 @@
     background-color: rgba(45, 45, 45, 0.5);
     z-index: 1;
   }
+  $extraSpace: 30px;
+  $extraSpaceMobile: 10px;
   .headline {
     position: absolute;
-    top: 0;
+    top: $navHeight + $extraSpace;
     left: 0;
     right: 0;
     text-align: center;
     color: white;
     z-index: 2;
+    @media (max-width: 500px) {
+      font-size: 28px;
+      top: $navHeight + $extraSpaceMobile;
+    }
   }
   // input positioning
   .input-area {
@@ -30,14 +36,16 @@
     height: 95px;
     z-index: 2;
     position: absolute;
-    top: 0;
+    top: $navHeight + $extraSpace;
     left: 0;
     bottom: 0;
     right: 0;
     margin: auto;
+    // Input items
+    $inputPadding: 10px;
     .input-item {
       width: 50%;
-      padding: 10px;
+      padding: $inputPadding;
       float: left;
       &.left {
         padding-right: 30px;
@@ -59,6 +67,21 @@
     @media (max-width: 700px) {
       width: 90%;
     }
+    @media (max-width: 500px) {
+      height: 140px;
+      top: $navHeight + $extraSpaceMobile;
+      .input-item {
+        float: initial;
+        margin: 0 auto;
+        width: 90%;
+        &.left {
+          padding-right: $inputPadding;
+        }
+        &.right {
+          padding-left: $inputPadding;
+        }
+      }
+    }
   }
 }
 .train-route {
@@ -67,11 +90,21 @@
   h2 {
     text-align: center;
     margin: 0;
-    padding-top: 20px;
+    padding-top: 60px;
     padding-bottom: 10px;
   }
   .route-meta {
     text-align: center;
+  }
+  .route-info {
+    padding: 30px;
+    .row {
+      border-bottom: 1px solid #ababab;
+      padding: 10px;
+      &.header-row {
+        border-bottom: 1px solid #5a5a5a;
+      }
+    }
   }
 }
 
