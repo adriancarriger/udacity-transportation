@@ -1,0 +1,104 @@
+@import '../styles/variables';
+.header {
+  height: 300px;
+  background-color: gray;
+  background-image: url('app/assets/train.jpg');
+  background-size: cover;
+  background-position: 50% 48%;
+  position: relative;
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(45, 45, 45, 0.5);
+    z-index: 1;
+  }
+  .headline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    z-index: 2;
+  }
+  // input positioning
+  .input-area {
+    width: 50%;
+    height: 95px;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    .input-item {
+      width: 50%;
+      padding: 10px;
+      float: left;
+      &.left {
+        padding-right: 30px;
+      }
+      &.right {
+        padding-left: 30px;
+      }
+      label {
+        color: white;
+        font-weight: 200;
+      }
+      select {
+        width: 100%;
+      }
+    }
+    @media (max-width: 900px) {
+      width: 70%;
+    }
+    @media (max-width: 700px) {
+      width: 90%;
+    }
+  }
+}
+.train-route {
+  background-color: #e4e1db;
+  color: #5a5a5a;
+  h2 {
+    text-align: center;
+    margin: 0;
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+  .route-meta {
+    text-align: center;
+  }
+}
+
+// default select styling
+select {
+  $selectColor: #e6e6e6;
+  color: #454545;
+  display: block;
+  font-size: 18px;
+  border-style: solid;
+  border-color: $selectColor;
+  border-width: 1px;
+  padding: 10.219px;
+  box-shadow: none;
+
+  height: 47.44px;
+  min-width: 100px;
+  background-color: $selectColor;
+  border-radius: 0px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-position: 98% 50%;
+  background-repeat: no-repeat;
+  background-image: url('app/assets/ios-down-arrow.svg');
+  background-size: 30px;
+  cursor: pointer;
+  &::-ms-expand{
+    display:none;
+  }
+}
