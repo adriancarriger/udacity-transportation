@@ -1,0 +1,54 @@
+@import '../../styles/variables';
+.navbar {
+	background-color: $primaryColor;
+	border-bottom: none;
+	height: $navHeight;
+	a {
+		cursor: pointer;
+	}
+	&.navbar-default {
+		.navbar-brand, .navbar-nav > li > a {
+			color: white;
+			margin: 5px 0;
+		}
+		.navbar-brand {
+			padding: 12px 15px;
+			font-size: 25px;
+		}
+	}
+	.navbar-pull-right {
+		float: right;
+	}
+	// Nav collapse button
+	.navbar-toggle {
+		border-color: white;
+		.icon-bar {
+			background-color: white;
+		}
+		&:hover {
+			background-color: initial;
+		}
+		&:focus {
+			background-color: initial;
+		}
+		@media (max-width: 768px) {
+			margin-top: 14px;
+		}
+	}
+}
+@media (max-width: 768px) {
+  .navbar-collapse {
+		// ** Added because ng2-bootstrap was throwing error:
+		//    'WARNING: sanitizing unsafe style value '
+		//    while using [collapse]="isCollapsed" in the HTML 
+		//    It started after upgrading the @angular/...2.0.0-rc.3 ** //
+		&.navbar-closed {
+			display: none;
+		}
+		background-color: $primaryColor;
+		text-align: center;
+		.navbar-pull-right {
+			float: initial;
+		}
+  }
+}

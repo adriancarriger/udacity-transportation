@@ -1,5 +1,8 @@
+@import './styles/variables';
 $defaultFooterHeight: 40px;
-$navHeight: 40px;
+html, body {
+  height: 100%;
+}
 .wrapper {
   position: relative;
   min-height: 100%;
@@ -11,7 +14,6 @@ $navHeight: 40px;
     }
   }
   app-footer {
-    height: $defaultFooterHeight;
     position: absolute;
     left: 0;
     right: 0;

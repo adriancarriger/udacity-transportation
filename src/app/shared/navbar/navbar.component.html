@@ -1,3 +1,27 @@
-<p>
-  navbar works!
-</p>
+<nav id="navbar" class="navbar navbar-fixed-top navbar-default">
+	<div>
+		<div class="navbar-header">
+			<a
+				aria-label="Home"
+				[routerLink]="['/']"
+				tabindex="5"
+				class="navbar-brand ion-android-train">
+			</a>
+			<button type="button" class="navbar-toggle" (click)="isCollapsed = !isCollapsed">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="navbar-collapse fix-on-init" [ngClass]="{'navbar-closed': isCollapsed}">
+			<ul class="nav navbar-nav">
+        <li role="menuitem">
+					<a
+						[routerLink]="['/']"
+						tabindex="5">Schedule</a>
+        </li>
+			</ul>
+		</div>
+	</div>
+</nav>
