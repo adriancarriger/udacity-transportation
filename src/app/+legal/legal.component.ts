@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-legal',
@@ -6,10 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['legal.component.scss']
 })
 export class LegalComponent implements OnInit {
-
-  constructor() { }
-
+  public type: string;
+  constructor(private activatedRoute: ActivatedRoute) {}
   ngOnInit() {
+    this.type = this.activatedRoute.snapshot.url[0].path;
   }
-
 }

@@ -1,0 +1,23 @@
+.footer {
+  background-color: gray;
+  .links {
+    text-align: center;
+    margin: 0;
+    li {
+      display: inline-block;
+      margin: 20px;
+      a, a:hover {
+        color: white;
+      }
+    }
+    @media (max-width: 500px) {
+      li {
+        display: block;
+      }
+      padding: 20px;
+      // This allows a small screen size to still access footer
+      // links without the lower right fixed buttons getting in the way
+      padding-bottom: 70px;
+    }
+  }
+}

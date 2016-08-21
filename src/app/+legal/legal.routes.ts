@@ -3,7 +3,11 @@ import { LegalComponent } from './legal.component';
 
 export const LegalRoutes: Route[] = [
   {
-    path: 'legal',
+    path: 'terms',
+    component: LegalComponent
+  },
+  {
+    path: 'privacy',
     component: LegalComponent
   }
 ];
