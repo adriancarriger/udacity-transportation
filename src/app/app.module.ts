@@ -1,6 +1,7 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 
@@ -11,6 +12,7 @@ import { SharedModule } from './shared/shared.module';
 @NgModule({
   imports: [
     BrowserModule,
+    HttpModule,
     RouterModule.forRoot(routes),
     HomeModule,
     LegalModule,

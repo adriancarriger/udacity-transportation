@@ -104,8 +104,28 @@
       &.header-row {
         border-bottom: 1px solid #5a5a5a;
       }
+      &:last-of-type {
+        border-bottom: none;
+      }
     }
   }
+}
+.default-schedule {
+  .button-bar {
+    
+    .btn {
+
+    }
+    .left {
+
+    }
+    .right {
+      
+    }
+  }
+}
+.train-map {
+
 }
 
 // default select styling
