@@ -1,5 +1,6 @@
 var Converter = require("csvtojson").Converter;
 var jsonfile = require('jsonfile');
+var path = require('path');
 
 var final = {
   defaultSchedule: {
@@ -13,10 +14,8 @@ var final = {
   stopsMeta: {}
 }
 
-
-
 // Get Other
-getJson('./files/stop_times.txt', function(stop_times) {
+getJson(__dirname + '/files/stop_times.txt', function(stop_times) {
   var metaShape = { time: '', special: '', satOnly: false };
   for (var i = 0; i < stop_times.length; i++) {
     var t = stop_times[i]; // this time
@@ -56,7 +55,7 @@ getJson('./files/stop_times.txt', function(stop_times) {
     }
   }
   // Get stops
-  getJson('./files/stops.txt', function(stopsMeta) {
+  getJson(__dirname + '/files/stops.txt', function(stopsMeta) {
     final.stopsMeta = filterStops(stopsMeta);
     saveFile( final );
   });
@@ -82,14 +81,18 @@ function filterStops(stopsMeta) {
   var temp = {};
   for (var i = 0; i < stopsMeta.length; i++) {
     if (!isNaN( stopsMeta[i].stop_id )) {
-      temp[stopsMeta[i].stop_id] = stopsMeta[i].stop_name;
+      var stopName = stopsMeta[i].stop_name;
+      // filter out 'station' and 'Caltrain'
+      stopName = stopName.split(' Station').join('');
+      stopName = stopName.split(' Caltrain').join('');
+      temp[stopsMeta[i].stop_id] = stopName;
     } 
   }
   return temp;
 }
 
 function saveFile(obj) {
-  var file = '../src/app/assets/schedule.json';
+  var file = path.resolve( __dirname + '/../src/app/assets/schedule.json' );
   jsonfile.writeFile(file, obj, function (err) {
     if (err) {
       console.error(err);

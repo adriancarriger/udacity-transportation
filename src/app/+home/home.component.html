@@ -5,13 +5,13 @@
     <div class="input-item left">
       <label for="departing">Departing from</label>
       <select id="departing" class="departing" tabindex="10">
-        <option>San Francisco</option>
+        <option *ngFor="let station of stations" [attr.value]="station.id">{{station.name}}</option>
       </select>
     </div>
     <div class="input-item right">
       <label for="arriving">Arriving to</label>
       <select id="arriving" class="arriving" tabindex="10">
-        <option>Mountain View</option>
+        <option *ngFor="let station of stations" [attr.value]="station.id">{{station.name}}</option>
       </select>
     </div>
   </div>

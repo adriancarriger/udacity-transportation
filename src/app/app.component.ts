@@ -10,6 +10,4 @@ import { NavbarComponent } from './shared/index';
   directives: [ROUTER_DIRECTIVES],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppComponent {
-  title = 'app works!';
-}
+export class AppComponent { }
