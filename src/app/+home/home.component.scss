@@ -101,6 +101,9 @@
     .row {
       border-bottom: 1px solid #ababab;
       padding: 10px;
+      .btn.btn-link {
+        padding: 6px 2px;
+      }
       &.header-row {
         border-bottom: 1px solid #5a5a5a;
       }
@@ -153,5 +156,8 @@ select {
   cursor: pointer;
   &::-ms-expand{
     display:none;
+  }
+  .default-select {
+    display: none;
   }
 }

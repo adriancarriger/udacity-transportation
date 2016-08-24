@@ -16,7 +16,6 @@ var final = {
 
 // Get Other
 getJson(__dirname + '/files/stop_times.txt', function(stop_times) {
-  var metaShape = { time: '', special: '', satOnly: false };
   for (var i = 0; i < stop_times.length; i++) {
     var t = stop_times[i]; // this time
     var trip_id = t.trip_id;
@@ -29,13 +28,15 @@ getJson(__dirname + '/files/stop_times.txt', function(stop_times) {
       if (trip_id !== '') {
         // indexedStops
         final.indexedStops[t.stop_id] = final.indexedStops[t.stop_id] || [];
-        final.indexedStops[t.stop_id].push( trip_id );
-        // metaInfo
+        final.indexedStops[t.stop_id].push( Number(trip_id) );
+        // metaInfo        
         final.metaInfo[trip_id] = final.metaInfo[trip_id] || {};
-        final.metaInfo[trip_id][t.stop_id] = final.metaInfo[trip_id][t.stop_id] || metaShape;
-        final.metaInfo[trip_id][t.stop_id]['time'] = t.arrival_time;
+        final.metaInfo[trip_id][t.stop_id] = final.metaInfo[trip_id][t.stop_id] || {};
+        final.metaInfo[trip_id][t.stop_id].time = t.arrival_time;
         if (other === 'a') {
-          final.metaInfo[trip_id][t.stop_id]['satOnly'] = true;
+          final.metaInfo[trip_id][t.stop_id].satOnly = true;
+        } else {
+          final.metaInfo[trip_id][t.stop_id].satOnly = false;
         }
       }
     }
