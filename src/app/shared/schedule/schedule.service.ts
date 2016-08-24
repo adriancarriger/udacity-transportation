@@ -14,6 +14,7 @@ export class ScheduleService {
     station2: null
   };
   public routeOptions = [];
+  public routesTotal:number = 0;
   private tempTrainData = {
     weekdays: [],
     weekends: []
@@ -48,6 +49,8 @@ export class ScheduleService {
     let station1 = Number( this.selectedRoute.station1 );
     let station2 = Number( this.selectedRoute.station2 );
     let goingNorth:boolean;
+    let weekdayRoutes = [];
+    let weekendRoutes = [];
     if (station1 !== null && station2 !== null && station1 !== station2) {
       if (station2 < station1) {
         // going north
@@ -72,8 +75,6 @@ export class ScheduleService {
       let matched:Array<number> = this.matchingTrips(
           this.trainData.indexedStops[station1],
           this.trainData.indexedStops[station2]);
-      let weekdayRoutes = [];
-      let weekendRoutes = [];
       if (matched.length > 0) {
         // Max stops shown before a "more" button is shown
         let maxBeforeHide = 3;
@@ -133,25 +134,20 @@ export class ScheduleService {
           } else {
             weekendRoutes.push( theseRoutes );
           }
-        }
-        
-      } else {
-        // return no matches found...
-        console.log('no matches found');
+        } 
       }
-      this.routeOptions = [
-        {
-          name: 'Weekdays',
-          routes: weekdayRoutes
-        },
-        {
-          name: 'Weekends',
-          routes: weekendRoutes
-        }
-      ];
-      
     }
-    
+    this.routeOptions = [
+      {
+        name: 'Weekdays',
+        routes: weekdayRoutes
+      },
+      {
+        name: 'Weekends',
+        routes: weekendRoutes
+      }
+    ];
+    this.routesTotal = weekdayRoutes.length + weekendRoutes.length;
   }
 
   private matchingTrips(tripIds1:Array<number>, tripIds2:Array<number>) {

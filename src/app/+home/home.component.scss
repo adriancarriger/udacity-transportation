@@ -85,8 +85,15 @@
   }
 }
 .train-route {
+  position: relative;
   background-color: #e4e1db;
   color: #5a5a5a;
+  max-height: 0px;
+  transition: 1.5s all;
+  overflow: scroll;
+  &.show-routes {
+    max-height: 3000px;
+  }
   h2 {
     text-align: center;
     margin: 0;
@@ -98,6 +105,7 @@
   }
   .route-info {
     padding: 30px;
+    padding-bottom: 50px;
     .row {
       border-bottom: 1px solid #ababab;
       padding: 10px;
@@ -111,6 +119,16 @@
         border-bottom: none;
       }
     }
+  }
+  .close {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100px;
+    text-align: center;
+    margin: auto;
+    font-size: 40px;
   }
 }
 .default-schedule {
