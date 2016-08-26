@@ -4,17 +4,25 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/publishLast';
+import * as moment from 'moment';
 
 @Injectable()
 export class ScheduleService {
   public stations = [];
   public trainData;
+  public nextAvailable = {
+    departing: null,
+    from: null,
+    arriving: null,
+    to: null
+  };
   public selectedRoute = {
     station1: null,
     station2: null
   };
   public routeOptions = [];
   public routesTotal:number = 0;
+  private nowMoment;
   private tempTrainData = {
     weekdays: [],
     weekends: []
@@ -31,7 +39,7 @@ export class ScheduleService {
 
   public stationSelected(event, station):void {
     this.selectedRoute['station' + station] = event.target.value;
-    this.updateRoute();
+    this.updateRoutes();
   }
 
   /**
@@ -45,13 +53,19 @@ export class ScheduleService {
                     .catch(this.handleError);
   }
 
-  private updateRoute():void {
+  private validRoute():boolean {
+    let station1 = Number( this.selectedRoute.station1 );
+    let station2 = Number( this.selectedRoute.station2 );
+    return station1 !== 0 && station2 !== 0 && station1 !== station2;
+  }
+
+  private updateRoutes():void {
     let station1 = Number( this.selectedRoute.station1 );
     let station2 = Number( this.selectedRoute.station2 );
     let goingNorth:boolean;
     let weekdayRoutes = [];
     let weekendRoutes = [];
-    if (station1 !== null && station2 !== null && station1 !== station2) {
+    if ( this.validRoute() ) {
       if (station2 < station1) {
         // going north
         goingNorth = true;
@@ -124,10 +138,13 @@ export class ScheduleService {
             stopsString = 'non-stop';
           }
           let theseRoutes = {
-            departure: stops[ station1 ].time,
-            arrival: stops[ station2 ].time,
+            sortNum: stops[ station1 ].time.split(':').join(''),
+            departure: this.formatTime( stops[ station1 ].time ),
+            arrival: this.formatTime( stops[ station2 ].time ),
+            satOnly: stops[ station1 ].satOnly,
             stops: stopsString,
-            moreStops: moreStopsString
+            moreStops: moreStopsString,
+            trip_id: routeId
           };
           if (isWeekdayRoute) {
             weekdayRoutes.push( theseRoutes );
@@ -137,20 +154,156 @@ export class ScheduleService {
         } 
       }
     }
+    // Sort by departure time
+    weekdayRoutes.sort(this.sortRoutes);
+    weekendRoutes.sort(this.sortRoutes);
     this.routeOptions = [
       {
         name: 'Weekdays',
-        routes: weekdayRoutes
+        routes: weekdayRoutes,
+        station: station1
       },
       {
         name: 'Weekends',
-        routes: weekendRoutes
+        routes: weekendRoutes,
+        station: station1
       }
     ];
     this.routesTotal = weekdayRoutes.length + weekendRoutes.length;
+    this.nextAvailableTrain();
   }
 
-  private matchingTrips(tripIds1:Array<number>, tripIds2:Array<number>) {
+  private formatTime(input: string): string {
+    let timeSections = input.split(':');
+    let hrNum: number = Number( timeSections[0] );
+    if (hrNum >= 24) { hrNum = hrNum - 24; }
+    timeSections[0] = hrNum + '';
+    let time = timeSections.join('');
+    return moment(time, 'Hmmss').format('h:mma');
+  }
+
+  private sortRoutes(a, b) {
+    return a.sortNum - b.sortNum;
+  }
+
+  /**
+   * - Returns the index of the appropriate schedule (either weekday or weekend schedule)
+   * - an index of 0 is weekday, 1 is weekend
+   */
+  private getScheduleIndex(offset?: number): number {
+    let indexDay = this.nowMoment.clone();
+    let index;
+    if (offset !== 0) {
+      indexDay.add(offset, 'd');
+    }
+    let isWeekend = indexDay.format('d') === '0' || indexDay.format('d') === '6';
+    if (isWeekend) { index = 1; } else { index = 0; }
+    return index;
+  }
+
+  private nextAvailableTrain() {
+    if ( !this.validRoute() ) { return; }
+    this.nowMoment = moment();
+    let nextTrainMoment = this.nowMoment.clone();
+    // If the current time is a weekend
+    let index: number = this.getScheduleIndex();
+    let stationNum: number = this.routeOptions[ index ].station;
+    let nowNum: number = Number( this.nowMoment.format('Hmmss') );
+    let found: boolean = false;
+    let searchToday: boolean = true;
+    let departingStation = this.trainData.stopsMeta[ this.selectedRoute.station1 ];
+    let arrivingStation = this.trainData.stopsMeta[ this.selectedRoute.station2 ];
+    // If none found for today's schedule (either weekday or weekend schedule),
+    // then check the other schedule
+    if (this.routeOptions[index].routes.length === 0) {
+      if (index === 0) {
+        // Weekend
+        index = 1;
+        nextTrainMoment = this.nowMoment.clone().day(5); // This Friday
+      } else {
+        // Weekday
+        index = 0;
+        nextTrainMoment = this.nowMoment.clone().day(1); // This Monday
+      }
+      searchToday = false;
+    }
+    // TODO: If 1) it's the end of Saturday and 2) there's no train on Sunday between the
+    // two stations, then search for trips on Monday
+    if (searchToday) {
+      for (let i = 0; !found && i < this.routeOptions[index].routes.length; i++) {
+        let thisSortNum: number = Number( this.routeOptions[index].routes[i].sortNum );
+        // Use the first route that leaves in the future
+        if (thisSortNum > nowNum
+          && (this.nowMoment.format('d') !== '0'
+            || this.routeOptions[index].routes[i].satOnly === false) ) {
+          // If hours are greater than 24, change moment to next day
+          if (thisSortNum > 240000) { nextTrainMoment.add(1, 'd'); }       
+          this.setNextAvailable(nextTrainMoment, this.routeOptions[index].routes[i]);
+          found = true;
+        }
+      }
+      // If after searching today's schedule there is nothing found,
+      // then check the next days's schedule
+      if (!found) {
+        index = this.getScheduleIndex(1);
+        nextTrainMoment.add(1, 'd');
+      }
+    }
+    if (!found || !searchToday) {
+      if (this.routeOptions[index].routes.length) {
+        // use earliest route of next day
+        if (nextTrainMoment.format('d') === '0') { // If Sunday
+          // loop through routes and find a non-sat only else go to monday
+          for (let i = 0; i < this.routeOptions[index].routes.length; i++) {
+            let thisSortNum: number = Number( this.routeOptions[index].routes[i].sortNum );
+            let satOnly = this.routeOptions[index].routes[i].satOnly;
+            if (!satOnly) {    
+              // If hours are greater than 24, change moment to next day
+              if (thisSortNum > 240000) { nextTrainMoment.add(1, 'd'); }      
+              this.setNextAvailable(nextTrainMoment, this.routeOptions[index].routes[i]);
+              break;
+            }
+          }
+        } else {
+          this.setNextAvailable(nextTrainMoment, this.routeOptions[index].routes[0]);
+        }
+      } else {
+        // no routes
+        this.setNextAvailable();
+      }
+    }
+  }
+
+  private setNextAvailable(thisMoment?, route?): void {
+    let departing = null;
+    let arrival = null;
+    if (route !== null && route !== undefined) {
+      departing = this.momentPlusTime(thisMoment, route.departure);
+      arrival = route.arrival;
+    }
+    this.nextAvailable = {
+      departing: departing,
+      from: this.trainData.stopsMeta[ this.selectedRoute.station1 ],
+      arriving: arrival,
+      to: this.trainData.stopsMeta[ this.selectedRoute.station2 ]
+    };
+  }
+
+  private momentPlusTime(thisMoment, time: string): string {
+    let dFormat: string = 'YYYY-MM-DD';
+    let nextTrainTime: string = thisMoment.format(dFormat);
+    nextTrainTime = nextTrainTime + ' ' + time;
+    return moment(nextTrainTime, dFormat + ' h:mma').calendar(this.nowMoment, {
+      sameDay: '[today at ]h:mma',
+      nextDay: '[tomorrow at ]h:mma',
+      nextWeek: 'dddd',
+      lastDay: '[yesterday]',
+      lastWeek: '[last] dddd',
+      sameElse: 'DD/MM/YYYY'
+    });
+  }
+
+  private matchingTrips(tripIds1: Array<number>, tripIds2: Array<number>) {
     let tripIds = [];
     if (tripIds1 !== undefined && tripIds2 !== undefined) {
       for (let i = 0; i < tripIds1.length; i++) {
@@ -162,7 +315,7 @@ export class ScheduleService {
     return tripIds;
   }
 
-  private getStations():void {
+  private getStations(): void {
     this.get().subscribe( data => {
       this.trainData = data;
       let temp = [];

@@ -20,8 +20,8 @@
 </div>
 <div [ngClass]="{'show-routes': select2.value && select1.value}" class="train-route">
   <h2>Next Available Train</h2>
-  <div class="route-meta">Today departing at 7:12am from San Francisco</div>
-  <div class="route-meta">Arriving at 8:01pm at Mountain View</div>
+  <div class="route-meta">Departing {{schedule.nextAvailable.departing}} from {{schedule.nextAvailable.from}}</div>
+  <div class="route-meta">Arriving at {{schedule.nextAvailable.arriving}} at {{schedule.nextAvailable.to}}</div>
   <div
     *ngFor="let weekPeriod of schedule.routeOptions"
     class="route-info container">
@@ -40,8 +40,7 @@
             *ngIf="route.moreStops !== null && route.expanded !== true">...<button
               (click)="route.expanded = true"
               class="btn btn-link">More</button>
-          </span>
-          <span *ngIf="route.expanded === true">{{route.moreStops}}<button
+          </span><span *ngIf="route.expanded === true">{{route.moreStops}}<button
               (click)="route.expanded = false"
               class="btn btn-link">Less</button>
           </span>
