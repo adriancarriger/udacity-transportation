@@ -166,20 +166,33 @@
       margin: 10px auto;
       overflow: scroll;
       .table {
+        .train-no {
+          padding: 11px 11px 11px 0 !important;
+        }
+        .sat-only {
+          background-color: #e4e1db;
+        }
         .col-header {
           width: 150px;
           position: absolute;
           background-color: white;
-
         }
+        $minWidth: 80px; 
         .first-col {
-          padding-left: 150px;
+          padding-left: 150px !important;
+          min-width: 161px + $minWidth !important;
         }
         tr {
           padding: 5px 2px;
           th {
-            padding: 11px 11px 11px 0;
-
+            padding: 0;
+            > div {
+              padding: 11px 11px 11px 0;
+              min-width: $minWidth;
+              &:not(.col-header) {
+                text-align: center;
+              }
+            }
           }
         }
       }

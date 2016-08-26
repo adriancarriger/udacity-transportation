@@ -82,17 +82,25 @@
         <table class="table">
           <thead>
             <tr>
-              <th class="col-header">Train No.</th>
-              <th *ngFor="let trainNumber of schedule.trainData?.defaultSchedule[weekObj.group] let i = index">
+              <th class="col-header train-no">Train No.</th>
+              <th *ngFor="let trainNumber of schedule.trainData?.defaultSchedule[weekObj.group]; let i = index">
                 <div [ngClass]="{'first-col': i === 0}">{{trainNumber}}</div>
               </th>
             </tr>
           </thead>
           <tbody>
+            <tr *ngIf="weekPeriod === 'weekend'">
+              <th><div class="col-header">Special</div></th>
+              <th *ngFor="let trainNumber of schedule.trainData?.defaultSchedule[weekObj.group]; let i = index">
+                <div [ngClass]="{'first-col': i === 0, 'sat-only': schedule.trainData.metaInfo[trainNumber][ weekObj.items[0].id ].satOnly !== false}">
+                  <span *ngIf="schedule.trainData.metaInfo[trainNumber][ weekObj.items[0].id ].satOnly">Sat only</span>
+                </div>
+              </th>
+            </tr>
             <tr *ngFor="let station of weekObj.items">
               <th><div class="col-header">{{station.name}}</div></th>
               <th *ngFor="let trainNumber of schedule.trainData?.defaultSchedule[weekObj.group]; let i = index">
-                <div [ngClass]="{'first-col': i === 0}">{{schedule.trainData.metaInfo[trainNumber][station.id]?.time | appTime}}</div>
+                <div [ngClass]="{'first-col': i === 0, 'sat-only': schedule.trainData.metaInfo[trainNumber][station.id]?.satOnly}">{{schedule.trainData.metaInfo[trainNumber][station.id]?.time | appTime}}</div>
               </th>
             </tr>
           </tbody>
