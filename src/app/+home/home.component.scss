@@ -132,6 +132,11 @@
   }
 }
 .default-schedule {
+  .default-title {
+    text-align: center;
+    text-transform: capitalize;
+    padding-top: 20px;
+  }
   .button-bar {
     float: right;
     padding-right: 2%;
@@ -199,8 +204,18 @@
     }
   }
 }
-.train-map {
-
+.default-map {
+  .map-title {
+    text-align: center;
+    padding-top: 70px;
+    padding-bottom: 40px;
+  }
+  img {
+    margin: 0 auto;
+    max-width: 750px;
+    width: 100%;
+    display: block;
+  }
 }
 
 // default select styling
