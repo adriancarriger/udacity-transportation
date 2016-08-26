@@ -9,6 +9,10 @@ import * as moment from 'moment';
 @Injectable()
 export class ScheduleService {
   public stations = [];
+  public defaultSchedule = {
+    weekday: [],
+    weekend: []
+  };
   public trainData;
   public nextAvailable = {
     until: null,
@@ -284,7 +288,6 @@ export class ScheduleService {
     moment.relativeTimeThreshold('h', 24);
     moment.relativeTimeThreshold('d', 30);
     moment.relativeTimeThreshold('M', 12);
-    //console.log( newMoment.from( this.nowMoment ) );
     let departing = null;
     let arrival = null;
     let until = null;
@@ -338,6 +341,10 @@ export class ScheduleService {
     this.get().subscribe( data => {
       this.trainData = data;
       let temp = [];
+      let weekdayNorth = [];
+      let weekdaySouth = [];
+      let weekendNorth = [];
+      let weekendSouth = [];
       for (let key in data.stopsMeta) {
         let stationName = data.stopsMeta[key];
         if (temp.indexOf(stationName) === -1) {
@@ -346,8 +353,82 @@ export class ScheduleService {
             name: stationName, // station name
             id: key // station id
           });
+          // Create default schedule
+          let weekdayN = false;
+          let weekendN = false;
+          // North
+          for (let i = 0; (!weekdayN || !weekendN ) && i < this.trainData.indexedStops[key].length; i++) {
+            if (this.trainData.indexedStops[key][i] < 400) {
+              // Weekday North
+              if (!weekdayN) {
+                weekdayNorth.push({
+                  name: stationName,
+                  id: key
+                });
+                weekdayN = true;
+              }
+            } else {
+              // Weekend North
+              if (!weekendN) {
+                weekendNorth.push({
+                  name: stationName,
+                  id: key
+                });
+                weekendN = true;
+              }
+            }
+          }
+          // South
+          let weekdayS = false;
+          let weekendS = false;
+          let southKey = (Number(key) + 1) + '';
+          for (let i = 0; (!weekdayS || !weekendS ) && i < this.trainData.indexedStops[southKey].length; i++) {
+            if (this.trainData.indexedStops[southKey][i] < 400) {
+              // Weekday North
+              if (!weekdayS) {
+                weekdaySouth.push({
+                  name: stationName,
+                  id: southKey
+                });
+                weekdayS = true;
+              }
+            } else {
+              // Weekend North
+              if (!weekendS) {
+                weekendSouth.push({
+                  name: stationName,
+                  id: southKey
+                });
+                weekendS = true;
+              }
+            }
+          }
         }
       }
+      this.defaultSchedule.weekday = [
+        {
+          name: 'Northbound',
+          group: 'weekdayNorth',
+          items: weekdayNorth
+        },
+        {
+          name: 'Soundbound',
+          group: 'weekdaySouth',
+          items: weekdaySouth
+        }
+      ];
+      this.defaultSchedule.weekend  = [
+        {
+          name: 'Northbound',
+          group: 'weekendNorth',
+          items: weekendNorth
+        },
+        {
+          name: 'Soundbound',
+          group: 'weekendSouth',
+          items: weekendSouth
+        }
+      ];
     });
   }
 

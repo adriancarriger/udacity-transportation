@@ -64,19 +64,40 @@
 </div>
 <div class="default-schedule">
   <div class="button-bar">
-    <button class="btn left">Weekday</button>
-    <button class="btn right">Weekend</button>
+    <button
+      (click)="weekPeriod = 'weekday'"
+      [ngClass]="{'active-button': weekPeriod === 'weekday'}"
+      tabindex="10"
+      class="btn left">Weekday</button>
+    <button
+      (click)="weekPeriod = 'weekend'"
+      [ngClass]="{'active-button': weekPeriod === 'weekend'}"
+      tabindex="10"
+      class="btn right">Weekend</button>
   </div>
-  <div class="schedule-container">
-    <h3>Northbound</h3>
+  <div *ngFor="let weekObj of schedule.defaultSchedule[weekPeriod]" class="schedule-container">
+    <h3 class="schedule-title">{{weekObj.name}}</h3>
     <div class="schedule">
-      
-    </div>
-  </div>
-  <div class="schedule-container">
-    <h3>Southbound</h3>
-    <div class="schedule">
-
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="col-header">Train No.</th>
+              <th *ngFor="let trainNumber of schedule.trainData?.defaultSchedule[weekObj.group] let i = index">
+                <div [ngClass]="{'first-col': i === 0}">{{trainNumber}}</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let station of weekObj.items">
+              <th><div class="col-header">{{station.name}}</div></th>
+              <th *ngFor="let trainNumber of schedule.trainData?.defaultSchedule[weekObj.group]; let i = index">
+                <div [ngClass]="{'first-col': i === 0}">{{schedule.trainData.metaInfo[trainNumber][station.id]?.time | appTime}}</div>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 <div class="default-map">
