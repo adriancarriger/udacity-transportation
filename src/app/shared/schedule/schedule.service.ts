@@ -11,6 +11,7 @@ export class ScheduleService {
   public stations = [];
   public trainData;
   public nextAvailable = {
+    until: null,
     departing: null,
     from: null,
     arriving: null,
@@ -22,6 +23,7 @@ export class ScheduleService {
   };
   public routeOptions = [];
   public routesTotal:number = 0;
+  private interval;
   private nowMoment;
   private tempTrainData = {
     weekdays: [],
@@ -171,6 +173,8 @@ export class ScheduleService {
     ];
     this.routesTotal = weekdayRoutes.length + weekendRoutes.length;
     this.nextAvailableTrain();
+    clearInterval( this.interval );
+    this.interval = setInterval( () => { this.nextAvailableTrain(); }, 15000);
   }
 
   private formatTime(input: string): string {
@@ -275,13 +279,22 @@ export class ScheduleService {
   }
 
   private setNextAvailable(thisMoment?, route?): void {
+    moment.relativeTimeThreshold('s', 60);
+    moment.relativeTimeThreshold('m', 60);
+    moment.relativeTimeThreshold('h', 24);
+    moment.relativeTimeThreshold('d', 30);
+    moment.relativeTimeThreshold('M', 12);
+    //console.log( newMoment.from( this.nowMoment ) );
     let departing = null;
     let arrival = null;
+    let until = null;
     if (route !== null && route !== undefined) {
-      departing = this.momentPlusTime(thisMoment, route.departure);
+      until = this.momentTimeMoment(thisMoment, route.departure).from(this.nowMoment);
+      departing = this.momentTimeString(thisMoment, route.departure);
       arrival = route.arrival;
     }
     this.nextAvailable = {
+      until: until,
       departing: departing,
       from: this.trainData.stopsMeta[ this.selectedRoute.station1 ],
       arriving: arrival,
@@ -289,11 +302,9 @@ export class ScheduleService {
     };
   }
 
-  private momentPlusTime(thisMoment, time: string): string {
-    let dFormat: string = 'YYYY-MM-DD';
-    let nextTrainTime: string = thisMoment.format(dFormat);
-    nextTrainTime = nextTrainTime + ' ' + time;
-    return moment(nextTrainTime, dFormat + ' h:mma').calendar(this.nowMoment, {
+  private momentTimeString(thisMoment, time: string): string {
+    let newMoment = this.momentTimeMoment(thisMoment, time);
+    return newMoment.calendar(this.nowMoment, {
       sameDay: '[today at ]h:mma',
       nextDay: '[tomorrow at ]h:mma',
       nextWeek: 'dddd',
@@ -302,6 +313,14 @@ export class ScheduleService {
       sameElse: 'DD/MM/YYYY'
     });
   }
+
+  private momentTimeMoment(thisMoment, time: string) {
+    let dFormat: string = 'YYYY-MM-DD';
+    let nextTrainTime: string = thisMoment.format(dFormat);
+    nextTrainTime = nextTrainTime + ' ' + time;
+    return moment(nextTrainTime, dFormat + ' h:mma');
+  }
+
 
   private matchingTrips(tripIds1: Array<number>, tripIds2: Array<number>) {
     let tripIds = [];

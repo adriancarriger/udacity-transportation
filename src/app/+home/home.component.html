@@ -6,14 +6,20 @@
       <label for="departing">Departing from</label>
       <select #select1 (change)="schedule.stationSelected($event, 1)" id="departing" class="departing" tabindex="10">
         <option class="default-select" disabled selected value>select a station</option>
-        <option *ngFor="let station of schedule.stations" [attr.value]="station.id">{{station.name}}</option>
+        <option
+          *ngFor="let station of schedule.stations"
+          [attr.value]="station.id"
+          [ngClass]="{'hide-option': station.id === select2.value}">{{station.name}}</option>
       </select>
     </div>
     <div class="input-item right">
       <label for="arriving">Arriving to</label>
       <select #select2 (change)="schedule.stationSelected($event, 2)" id="arriving" class="arriving" tabindex="10">
         <option class="default-select" disabled selected value>select a station</option>
-        <option *ngFor="let station of schedule.stations" [attr.value]="station.id">{{station.name}}</option>
+        <option
+          *ngFor="let station of schedule.stations"
+          [attr.value]="station.id"
+          [ngClass]="{'hide-option': station.id === select1.value}">{{station.name}}</option>
       </select>
     </div>
   </div>
@@ -22,19 +28,21 @@
   <h2>Next Available Train</h2>
   <div class="route-meta">Departing {{schedule.nextAvailable.departing}} from {{schedule.nextAvailable.from}}</div>
   <div class="route-meta">Arriving at {{schedule.nextAvailable.arriving}} at {{schedule.nextAvailable.to}}</div>
+  <div class="route-meta">Leaving {{schedule.nextAvailable.until}}</div>
   <div
     *ngFor="let weekPeriod of schedule.routeOptions"
     class="route-info container">
     <h3>{{weekPeriod.name}}</h3>
     <div *ngIf="weekPeriod.routes.length > 0">
       <div class="row header-row">
-        <div class="col-xs-4">Depart time</div>
-        <div class="col-xs-4">Arrival time</div>
+        <div class="col-xs-4" [ngClass]="{'col-xs-3': weekPeriod.name === 'Weekends'}">Depart time</div>
+        <div class="col-xs-4" [ngClass]="{'col-xs-3': weekPeriod.name === 'Weekends'}">Arrival time</div>
         <div class="col-xs-4">Stops</div>
+        <div *ngIf="weekPeriod.name === 'Weekends'" class="col-xs-2">Special</div>
       </div>
       <div *ngFor="let route of weekPeriod.routes" class="row">
-        <div class="col-xs-4">{{route.departure}}</div>
-        <div class="col-xs-4">{{route.arrival}}</div>
+        <div class="col-xs-4" [ngClass]="{'col-xs-3': weekPeriod.name === 'Weekends'}">{{route.departure}}</div>
+        <div class="col-xs-4" [ngClass]="{'col-xs-3': weekPeriod.name === 'Weekends'}">{{route.arrival}}</div>
         <div class="col-xs-4">
           <span>{{route.stops}}</span><span
             *ngIf="route.moreStops !== null && route.expanded !== true">...<button
@@ -44,6 +52,9 @@
               (click)="route.expanded = false"
               class="btn btn-link">Less</button>
           </span>
+        </div>
+        <div *ngIf="weekPeriod.name === 'Weekends'" class="col-xs-2">
+          <span *ngIf="route.satOnly">Saturday only</span>
         </div>
       </div>
     </div>
