@@ -86,6 +86,7 @@
 }
 .train-route {
   position: relative;
+  overflow: hidden;
   background-color: #e4e1db;
   color: #5a5a5a;
   max-height: 0px;
@@ -106,6 +107,7 @@
   .route-info {
     padding: 30px;
     padding-bottom: 50px;
+    overflow: hidden;
     .row {
       border-bottom: 1px solid #ababab;
       padding: 10px;
@@ -165,6 +167,9 @@
     padding-top: 30px;
     .schedule-title {
       padding-left: 2%;
+      @media (max-width: 400px) {
+        padding-top: 40px;
+      }
     }
     .table-container {
       width: 96%;
@@ -172,7 +177,7 @@
       overflow-x: scroll;
       .table {
         .train-no {
-          padding: 11px 11px 11px 0 !important;
+          padding: 11px 2px 11px 0 !important;
         }
         .sat-only {
           background-color: #e4e1db;
@@ -181,6 +186,9 @@
           width: 150px;
           position: absolute;
           background-color: white;
+          @media (max-width: 400px) {
+            width: 100px;
+          }
         }
         $minWidth: 80px; 
         .first-col {
@@ -191,6 +199,10 @@
           padding: 5px 2px;
           th {
             padding: 0;
+            @media (max-width: 400px) {
+              height: 65px;
+              border-bottom: none;
+            }
             > div {
               padding: 11px 11px 11px 0;
               min-width: $minWidth;
@@ -215,6 +227,7 @@
     max-width: 750px;
     width: 100%;
     display: block;
+    padding-bottom: 50px;
   }
 }
 

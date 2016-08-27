@@ -9,6 +9,9 @@ html, body {
   .content-container {
     display: block;
     padding-bottom: $defaultFooterHeight + 40px;
+    @media (max-width: 500px) {
+      padding-bottom: $defaultFooterHeight + 40px + 170px;
+    }
   }
   app-footer {
     position: absolute;

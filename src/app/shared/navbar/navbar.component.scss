@@ -22,6 +22,12 @@
 	// Nav collapse button
 	.navbar-toggle {
 		border-color: $primaryColor;
+		&:focus {
+			outline: initial;
+			outline-color: -webkit-focus-ring-color;
+			outline-style: auto;
+			outline-width: initial;
+		}
 		.icon-bar {
 			background-color: $primaryColor;
 		}
