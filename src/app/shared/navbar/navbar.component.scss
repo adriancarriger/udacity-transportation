@@ -45,7 +45,7 @@
 		&.navbar-closed {
 			display: none;
 		}
-		background-color: $primaryColor;
+		background-color: rgba(255, 255, 255, 0.9);
 		text-align: center;
 		.navbar-pull-right {
 			float: initial;
