@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { PageScroll } from 'ng2-page-scroll';
 
 import { NavbarComponent } from './navbar/index';
 import { FooterComponent } from './footer/index';
@@ -13,7 +14,7 @@ import { ScheduleService } from './schedule/index';
 
 @NgModule({
   imports: [CommonModule, RouterModule],
-  declarations: [NavbarComponent, FooterComponent],
+  declarations: [NavbarComponent, FooterComponent, PageScroll],
   exports: [NavbarComponent, FooterComponent,
     CommonModule, FormsModule, RouterModule]
 })

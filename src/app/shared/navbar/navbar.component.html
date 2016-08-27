@@ -3,8 +3,11 @@
 		<div class="navbar-header">
 			<a
 				aria-label="Home"
+				pageScroll
+				[pageScrollOffset]="51"
 				[routerLink]="['/']"
 				tabindex="5"
+				href="#app-home"
 				class="navbar-brand ion-android-train">
 			</a>
 			<button type="button" class="navbar-toggle" (click)="isCollapsed = !isCollapsed">
@@ -18,13 +21,19 @@
 			<ul class="nav navbar-nav">
         <li role="menuitem">
 					<a
+						pageScroll
+						[pageScrollOffset]="76"
 						[routerLink]="['/']"
-						tabindex="5">Schedule</a>
+						tabindex="5"
+						href="#app-schedule">Schedule</a>
         </li>
 				<li role="menuitem">
 					<a
+						pageScroll
+						[pageScrollOffset]="0"
 						[routerLink]="['/']"
-						tabindex="5">Map</a>
+						tabindex="5"
+						href="#app-map">Map</a>
         </li>
 			</ul>
 		</div>
