@@ -227,11 +227,11 @@ export class ScheduleService {
       if (index === 0) {
         // Weekend
         index = 1;
-        nextTrainMoment = this.nowMoment.clone().day(5); // This Friday
+        nextTrainMoment = this.nowMoment.clone().day(7 + 5); // This Friday
       } else {
         // Weekday
         index = 0;
-        nextTrainMoment = this.nowMoment.clone().day(1); // This Monday
+        nextTrainMoment = this.nowMoment.clone().day(7 + 1); // This Monday
       }
       searchToday = false;
     }
