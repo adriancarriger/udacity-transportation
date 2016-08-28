@@ -4,7 +4,13 @@
   <div class="input-area">
     <div class="input-item left">
       <label for="departing">Departing from</label>
-      <select #select1 (change)="schedule.stationSelected($event, 1)" id="departing" class="departing" tabindex="10">
+      <select
+        #select1
+        (change)="schedule.stationSelected($event, 1)"
+        id="departing"
+        class="departing"
+        aria-label="Select a departing train route"
+        tabindex="10">
         <option class="default-select" disabled selected value>select a station</option>
         <option
           *ngFor="let station of schedule.stations"
@@ -14,7 +20,13 @@
     </div>
     <div class="input-item right">
       <label for="arriving">Arriving to</label>
-      <select #select2 (change)="schedule.stationSelected($event, 2)" id="arriving" class="arriving" tabindex="10">
+      <select
+        #select2
+        (change)="schedule.stationSelected($event, 2)"
+        id="arriving"
+        class="arriving"
+        aria-label="Select an arriving train route"
+        tabindex="10">
         <option class="default-select" disabled selected value>select a station</option>
         <option
           *ngFor="let station of schedule.stations"
@@ -49,9 +61,11 @@
           <span>{{route.stops}}</span><span
             *ngIf="route.moreStops !== null && route.expanded !== true">...<button
               (click)="route.expanded = true"
+              aria-label="Show more stops for this route"
               class="btn btn-link">More</button>
           </span><span *ngIf="route.expanded === true">{{route.moreStops}}<button
               (click)="route.expanded = false"
+              aria-label="Show fewer stops for this route"
               class="btn btn-link">Less</button>
           </span>
         </div>
@@ -71,11 +85,13 @@
       (click)="weekPeriod = 'weekday'"
       [ngClass]="{'active-button': weekPeriod === 'weekday'}"
       tabindex="10"
+      aria-label="Switch to the weekday default train schedule"
       class="btn left">Weekday</button>
     <button
       (click)="weekPeriod = 'weekend'"
       [ngClass]="{'active-button': weekPeriod === 'weekend'}"
       tabindex="10"
+      aria-label="Switch to the weekend default train schedule"
       class="btn right">Weekend</button>
   </div>
   <div *ngFor="let weekObj of schedule.defaultSchedule[weekPeriod]" class="schedule-container">
@@ -114,5 +130,5 @@
 </div>
 <div id="app-map" class="default-map">
   <h3 class="map-title">Systems Map</h3>
-  <img src="app/assets/caltrain-map.png" />
+  <img src="app/assets/caltrain-map.png" alt="map of train stations" />
 </div>
