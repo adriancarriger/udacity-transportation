@@ -8,8 +8,8 @@ An app that allows users to select a departure and arrival train station and mee
 
 ## Tech Stack
 
-* Front end: [Angular 2](https://github.com/angular/angular) version 2.0.0-rc.5
-* Scaffolding: [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.11-webpack.2
+* Front end: [Angular 2](https://github.com/angular/angular) version 2.0.0-rc.7
+* Scaffolding: [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.11-webpack.8
 
 ## Development server
 

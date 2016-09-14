@@ -2,7 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { PageScroll } from 'ng2-page-scroll';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 import { NavbarComponent } from './navbar/index';
 import { FooterComponent } from './footer/index';
@@ -13,8 +13,8 @@ import { ScheduleService } from './schedule/index';
  */
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
-  declarations: [NavbarComponent, FooterComponent, PageScroll],
+  imports: [CommonModule, RouterModule, Ng2PageScrollModule],
+  declarations: [NavbarComponent, FooterComponent],
   exports: [NavbarComponent, FooterComponent,
     CommonModule, FormsModule, RouterModule]
 })
