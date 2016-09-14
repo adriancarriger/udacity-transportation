@@ -26,16 +26,12 @@ export class ScheduleService {
     station2: null
   };
   public routeOptions = [];
-  public routesTotal:number = 0;
+  public routesTotal: number = 0;
   private interval;
   private nowMoment;
-  private tempTrainData = {
-    weekdays: [],
-    weekends: []
-  };
   constructor(private http: Http) { }
 
-  public init():void {
+  public init(): void {
     this.getStations();
     this.selectedRoute = {
       station1: null,
@@ -43,7 +39,7 @@ export class ScheduleService {
     };
   }
 
-  public stationSelected(event, station):void {
+  public stationSelected(event, station): void {
     this.selectedRoute['station' + station] = event.target.value;
     this.updateRoutes();
   }
@@ -59,16 +55,16 @@ export class ScheduleService {
                     .catch(this.handleError);
   }
 
-  private validRoute():boolean {
+  private validRoute(): boolean {
     let station1 = Number( this.selectedRoute.station1 );
     let station2 = Number( this.selectedRoute.station2 );
     return station1 !== 0 && station2 !== 0 && station1 !== station2;
   }
 
-  private updateRoutes():void {
+  private updateRoutes(): void {
     let station1 = Number( this.selectedRoute.station1 );
     let station2 = Number( this.selectedRoute.station2 );
-    let goingNorth:boolean;
+    let goingNorth: boolean;
     let weekdayRoutes = [];
     let weekendRoutes = [];
     if ( this.validRoute() ) {
@@ -92,7 +88,7 @@ export class ScheduleService {
         }
       }
       // Find matching trips
-      let matched:Array<number> = this.matchingTrips(
+      let matched: Array<number> = this.matchingTrips(
           this.trainData.indexedStops[station1],
           this.trainData.indexedStops[station2]);
       if (matched.length > 0) {
@@ -101,29 +97,31 @@ export class ScheduleService {
         for (let i = 0; i < matched.length; i++) {
           let routeId = matched[i];
           // All weekday routes are less than 400
-          let isWeekdayRoute:boolean = routeId < 400;
+          let isWeekdayRoute: boolean = routeId < 400;
           // All stops including start and end station
           let stops = this.trainData.metaInfo[ routeId ];
           // Stops shown without "more" button being clicked
-          let stopsString:string = '';
+          let stopsString = '';
           // Additional stops shown after "more" button is clicked
-          let moreStopsString:string = null;
+          let moreStopsString = null;
           // Find matching stops
           let matchedStops = [];
-          for (let stop_id in stops) {
-            let stop_number = Number( stop_id );
-            // If a stop is between the start and end station
-            if (goingNorth) {
-              if (stop_number < station1 && stop_number > station2) {
-                // Add to the array of stops to be displayed
-                matchedStops.push(stop_id);
+          for (let stopId in stops) {
+            if (stops.hasOwnProperty(stopId)) {
+              let stopNumber = Number( stopId );
+              // If a stop is between the start and end station
+              if (goingNorth) {
+                if (stopNumber < station1 && stopNumber > station2) {
+                  // Add to the array of stops to be displayed
+                  matchedStops.push(stopId);
+                }
+              } else {
+                if (stopNumber > station1 && stopNumber < station2) {
+                  // Add to the array of stops to be displayed
+                  matchedStops.push(stopId);
+                }
               }
-            } else {
-              if (stop_number > station1 && stop_number < station2) {
-                // Add to the array of stops to be displayed
-                matchedStops.push(stop_id);
-              }
-            } 
+            }
           }
           if (matchedStops.length > 2) {
             // sort stops here
@@ -134,8 +132,9 @@ export class ScheduleService {
               }
               if (n > maxBeforeHide) {
                 if (moreStopsString === null) { moreStopsString = ''; }
-                moreStopsString = moreStopsString + ', ' + this.trainData.stopsMeta[ matchedStops[n] ]
-              } 
+                moreStopsString
+                  = moreStopsString + ', ' + this.trainData.stopsMeta[ matchedStops[n] ];
+              }
             }
             // Remove last comma
             stopsString = stopsString.substr(0, stopsString.length - 2);
@@ -157,7 +156,7 @@ export class ScheduleService {
           } else {
             weekendRoutes.push( theseRoutes );
           }
-        } 
+        }
       }
     }
     // Sort by departure time
@@ -215,12 +214,9 @@ export class ScheduleService {
     let nextTrainMoment = this.nowMoment.clone();
     // If the current time is a weekend
     let index: number = this.getScheduleIndex();
-    let stationNum: number = this.routeOptions[ index ].station;
     let nowNum: number = Number( this.nowMoment.format('Hmmss') );
-    let found: boolean = false;
-    let searchToday: boolean = true;
-    let departingStation = this.trainData.stopsMeta[ this.selectedRoute.station1 ];
-    let arrivingStation = this.trainData.stopsMeta[ this.selectedRoute.station2 ];
+    let found = false;
+    let searchToday = true;
     // If none found for today's schedule (either weekday or weekend schedule),
     // then check the other schedule
     if (this.routeOptions[index].routes.length === 0) {
@@ -245,7 +241,7 @@ export class ScheduleService {
           && (this.nowMoment.format('d') !== '0'
             || this.routeOptions[index].routes[i].satOnly === false) ) {
           // If hours are greater than 24, change moment to next day
-          if (thisSortNum > 240000) { nextTrainMoment.add(1, 'd'); }       
+          if (thisSortNum > 240000) { nextTrainMoment.add(1, 'd'); }
           this.setNextAvailable(nextTrainMoment, this.routeOptions[index].routes[i]);
           found = true;
         }
@@ -265,9 +261,9 @@ export class ScheduleService {
           for (let i = 0; i < this.routeOptions[index].routes.length; i++) {
             let thisSortNum: number = Number( this.routeOptions[index].routes[i].sortNum );
             let satOnly = this.routeOptions[index].routes[i].satOnly;
-            if (!satOnly) {    
+            if (!satOnly) {
               // If hours are greater than 24, change moment to next day
-              if (thisSortNum > 240000) { nextTrainMoment.add(1, 'd'); }      
+              if (thisSortNum > 240000) { nextTrainMoment.add(1, 'd'); }
               this.setNextAvailable(nextTrainMoment, this.routeOptions[index].routes[i]);
               break;
             }
@@ -318,7 +314,7 @@ export class ScheduleService {
   }
 
   private momentTimeMoment(thisMoment, time: string) {
-    let dFormat: string = 'YYYY-MM-DD';
+    let dFormat = 'YYYY-MM-DD';
     let nextTrainTime: string = thisMoment.format(dFormat);
     nextTrainTime = nextTrainTime + ' ' + time;
     return moment(nextTrainTime, dFormat + ' h:mma');
@@ -331,7 +327,7 @@ export class ScheduleService {
       for (let i = 0; i < tripIds1.length; i++) {
         if (tripIds2.indexOf( tripIds1[i] ) !== -1) {
           tripIds.push( tripIds1[i] );
-        } 
+        }
       }
     }
     return tripIds;
@@ -345,61 +341,66 @@ export class ScheduleService {
       let weekdaySouth = [];
       let weekendNorth = [];
       let weekendSouth = [];
+
       for (let key in data.stopsMeta) {
-        let stationName = data.stopsMeta[key];
-        if (temp.indexOf(stationName) === -1) {
-          temp.push(stationName);
-          this.stations.push({
-            name: stationName, // station name
-            id: key // station id
-          });
-          // Create default schedule
-          let weekdayN = false;
-          let weekendN = false;
-          // North
-          for (let i = 0; (!weekdayN || !weekendN ) && i < this.trainData.indexedStops[key].length; i++) {
-            if (this.trainData.indexedStops[key][i] < 400) {
-              // Weekday North
-              if (!weekdayN) {
-                weekdayNorth.push({
-                  name: stationName,
-                  id: key
-                });
-                weekdayN = true;
-              }
-            } else {
-              // Weekend North
-              if (!weekendN) {
-                weekendNorth.push({
-                  name: stationName,
-                  id: key
-                });
-                weekendN = true;
+        if (data.stopsMeta.hasOwnProperty(key)) {
+          let stationName = data.stopsMeta[key];
+          if (temp.indexOf(stationName) === -1) {
+            temp.push(stationName);
+            this.stations.push({
+              name: stationName, // station name
+              id: key // station id
+            });
+            // Create default schedule
+            let weekdayN = false;
+            let weekendN = false;
+            // North
+            for (let i = 0; (!weekdayN || !weekendN )
+              && i < this.trainData.indexedStops[key].length; i++) {
+              if (this.trainData.indexedStops[key][i] < 400) {
+                // Weekday North
+                if (!weekdayN) {
+                  weekdayNorth.push({
+                    name: stationName,
+                    id: key
+                  });
+                  weekdayN = true;
+                }
+              } else {
+                // Weekend North
+                if (!weekendN) {
+                  weekendNorth.push({
+                    name: stationName,
+                    id: key
+                  });
+                  weekendN = true;
+                }
               }
             }
-          }
-          // South
-          let weekdayS = false;
-          let weekendS = false;
-          let southKey = (Number(key) + 1) + '';
-          for (let i = 0; (!weekdayS || !weekendS ) && i < this.trainData.indexedStops[southKey].length; i++) {
-            if (this.trainData.indexedStops[southKey][i] < 400) {
-              // Weekday North
-              if (!weekdayS) {
-                weekdaySouth.push({
-                  name: stationName,
-                  id: southKey
-                });
-                weekdayS = true;
-              }
-            } else {
-              // Weekend North
-              if (!weekendS) {
-                weekendSouth.push({
-                  name: stationName,
-                  id: southKey
-                });
-                weekendS = true;
+            // South
+            let weekdayS = false;
+            let weekendS = false;
+            let southKey = (Number(key) + 1) + '';
+            for (let i = 0; (!weekdayS || !weekendS )
+              && i < this.trainData.indexedStops[southKey].length; i++) {
+              if (this.trainData.indexedStops[southKey][i] < 400) {
+                // Weekday North
+                if (!weekdayS) {
+                  weekdaySouth.push({
+                    name: stationName,
+                    id: southKey
+                  });
+                  weekdayS = true;
+                }
+              } else {
+                // Weekend North
+                if (!weekendS) {
+                  weekendSouth.push({
+                    name: stationName,
+                    id: southKey
+                  });
+                  weekendS = true;
+                }
               }
             }
           }
@@ -442,6 +443,6 @@ export class ScheduleService {
     return Observable.throw(errMsg);
   }
 
-  private isOdd(x) { return x & 1; }
+  private isOdd(x) { return (x % 2) === 1;  }
 
 }

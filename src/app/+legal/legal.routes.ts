@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { LegalComponent } from './legal.component';
 
-export const LegalRoutes: Route[] = [
+export const legalRoutes: Route[] = [
   {
     path: 'terms',
     component: LegalComponent
