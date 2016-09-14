@@ -50,7 +50,7 @@ export class ScheduleService {
 
   /**
    * Returns an Observable for the HTTP GET request for the JSON resource.
-   * @return {string[]} The Observable for the HTTP request.
+   * @return {any} The Observable for the HTTP request.
    */
   public get(): Observable<any> {
     return this.http.get( 'app/assets/schedule.json' )

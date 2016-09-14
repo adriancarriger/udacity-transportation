@@ -7,7 +7,7 @@ import { NavbarComponent } from './shared/index';
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  directives: [ROUTER_DIRECTIVES],
+  directives: [],
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent { }
