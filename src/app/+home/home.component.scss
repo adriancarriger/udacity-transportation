@@ -2,7 +2,7 @@
 .header {
   height: 350px;
   background-color: gray;
-  background-image: url('app/assets/train.jpg');
+  background-image: url('assets/train.jpg');
   background-size: cover;
   background-position: 50% 48%;
   position: relative;
@@ -250,7 +250,7 @@ select {
   -moz-appearance: none;
   background-position: 98% 50%;
   background-repeat: no-repeat;
-  background-image: url('app/assets/ios-down-arrow.svg');
+  background-image: url('assets/ios-down-arrow.svg');
   background-size: 30px;
   cursor: pointer;
   &::-ms-expand{

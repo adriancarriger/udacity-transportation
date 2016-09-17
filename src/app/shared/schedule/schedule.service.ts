@@ -49,7 +49,7 @@ export class ScheduleService {
    * @return {any} The Observable for the HTTP request.
    */
   public get(): Observable<any> {
-    return this.http.get( 'app/assets/schedule.json' )
+    return this.http.get( 'assets/schedule.json' )
                     .map((res: Response) => res.json())
                     .publishLast().refCount()
                     .catch(this.handleError);
