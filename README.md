@@ -12,8 +12,8 @@ An app that allows users to select a departure and arrival train station and mee
 
 ## Tech Stack
 
-* Front end: [Angular 2](https://github.com/angular/angular) version 2.0.0
-* Scaffolding: [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.14
+* Front end: [Angular 2](https://github.com/angular/angular) version ~2.0.0
+* Scaffolding: [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.17
 
 ## Development server
 
@@ -21,7 +21,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ##License
 

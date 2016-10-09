@@ -14,6 +14,11 @@
 		.navbar-brand {
 			padding: 12px 15px;
 			font-size: 25px;
+			background-position: 50% 50%;
+			background-repeat: no-repeat;
+			background-image: url('assets/ion-android-train.svg');
+			background-size: 24px;
+			width: 47px;
 		}
 	}
 	.navbar-pull-right {
