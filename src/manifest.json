@@ -1,0 +1,13 @@
+{
+  "name": "Udacity Transportation",
+  "short_name": "Transport",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [{
+    "src": "assets/angular.png",
+    "sizes": "833x833",
+    "type": "image/png"
+  }],
+  "background_color": "#76c2af",
+  "theme_color": "#76c2af"
+}
