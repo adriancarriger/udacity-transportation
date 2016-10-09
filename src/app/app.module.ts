@@ -8,6 +8,7 @@ import { routes } from './app.routes';
 import { HomeModule } from './+home/home.module';
 import { LegalModule } from './+legal/legal.module';
 import { SharedModule } from './shared/shared.module';
+import { LoadingModule } from './loading/loading.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { SharedModule } from './shared/shared.module';
     RouterModule.forRoot(routes),
     HomeModule,
     LegalModule,
-    SharedModule.forRoot()
+    SharedModule.forRoot(),
+    LoadingModule.forRoot()
   ],
   declarations: [
     AppComponent

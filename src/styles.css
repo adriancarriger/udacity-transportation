@@ -1,1 +1,77 @@
-/* You can add global styles to this file, and also import other style files */
+.loading-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.loading-area {
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 100px;
+  text-align: center;
+}
+
+.loading-area h1 {
+  font-size: 18px;
+  color: gray;
+}
+
+@media (max-width: 700px) {
+  .loading-area {
+    width: 90%;
+  }
+}
+
+@keyframes spin {
+	to { transform: rotate(1turn); }
+}
+
+.spin-progress {
+	position: relative;
+	display: inline-block;
+	width: 5em;
+	height: 5em;
+	margin: 0 .5em;
+	font-size: 12px;
+	text-indent: 999em;
+	overflow: hidden;
+	animation: spin 1s infinite steps(8);
+	font-size: 15px;
+	margin-top: 20px;
+}
+.spin-progress:before,
+.spin-progress:after,
+.spin-progress > div:before,
+.spin-progress > div:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 2.25em;
+	width: .5em;
+	height: 1.5em;
+	border-radius: .2em;
+	background: white;
+	box-shadow: 0 3.5em #eee;
+	transform-origin: 50% 2.5em;
+}
+
+.spin-progress:before {
+	background: rgba(255, 129, 0, 0.8);
+}
+
+.spin-progress:after {
+	transform: rotate(-45deg);
+	background: rgba(255, 129, 0, 1);
+}
+
+.spin-progress > div:before {
+	transform: rotate(-90deg);
+	background: rgba(255, 129, 0, 0.7);
+}
+
+.spin-progress > div:after {
+	transform: rotate(-135deg);
+	background: rgba(255, 129, 0, 0.4);
+}
