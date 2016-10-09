@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.isCollapsed = true;
+        document.body.scrollTop = 0;
       }
     }, (error: any) => {
       this.isCollapsed = true;
