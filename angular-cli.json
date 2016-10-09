@@ -1,13 +1,17 @@
 {
   "project": {
-    "version": "1.0.0-beta.14",
+    "version": "1.0.0-beta.17",
     "name": "udacity-transportation"
   },
   "apps": [
     {
       "root": "src",
       "outDir": "dist",
-      "assets": "assets",
+      "assets": [
+        "assets",
+        "favicon.ico",
+        "sw.js"
+      ],
       "index": "index.html",
       "main": "main.ts",
       "test": "test.ts",
