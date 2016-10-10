@@ -93,7 +93,7 @@ function filterStops(stopsMeta) {
 }
 
 function saveFile(obj) {
-  var file = path.resolve( __dirname + '/../src/app/assets/schedule.json' );
+  var file = path.resolve( __dirname + '/../src/assets/schedule.json' );
   jsonfile.writeFile(file, obj, function (err) {
     if (err) {
       console.error(err);
