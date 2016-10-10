@@ -1,14 +1,14 @@
 # Udacity Transportation
 
-This is my second of five projects in the Udacity [Senior Web Developer Nanodegree](https://www.udacity.com/course/senior-web-developer-nanodegree--nd802) program. This is a work in progress.
+This is my second of five projects in the Udacity [Senior Web Developer Nanodegree](https://www.udacity.com/course/senior-web-developer-nanodegree--nd802) program.
 
 ## Demo
 
-To view the state of this unfinished project, checkout the demo at: [https://adriancarriger.github.io/udacity-transportation/](https://adriancarriger.github.io/udacity-transportation/)
+To view the state of this project, checkout the demo at: [https://adriancarriger.github.io/udacity-transportation/](https://adriancarriger.github.io/udacity-transportation/)
 
 ## Description
 
-An app that allows users to select a departure and arrival train station and meet the other [requirements](REQUIREMENTS.md) of the course.
+An offline first app that allows users to select a departure and arrival train station and meets the other [requirements](REQUIREMENTS.md) of the course.
 
 ## Tech Stack
 
@@ -21,7 +21,8 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+* Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+* Run `update-json` to convert GTFS files (located in `build/files`) to json.
 
 ##License
 
