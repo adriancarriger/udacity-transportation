@@ -6,6 +6,14 @@ This is my second of five projects in the Udacity [Senior Web Developer Nanodegr
 
 To view the state of this project, checkout the demo at: [https://adriancarriger.github.io/udacity-transportation/](https://adriancarriger.github.io/udacity-transportation/)
 
+<a href="https://adriancarriger.github.io/udacity-transportation/">
+  <img alt="home page top" src="https://raw.githubusercontent.com/adriancarriger/udacity-transportation/master/images/example-1.png" width="200px">
+  <img alt="weekday train schedule" src="https://raw.githubusercontent.com/adriancarriger/udacity-transportation/master/images/example-2.png" width="200px">
+  <img alt="train map" src="https://raw.githubusercontent.com/adriancarriger/udacity-transportation/master/images/example-3.png" width="200px">
+</a>
+
+[![Example Gif](https://raw.githubusercontent.com/adriancarriger/udacity-transportation/master/images/example.gif)](https://adriancarriger.github.io/udacity-transportation/)
+
 ## Description
 
 An offline first app that allows users to select a departure and arrival train station and meets the other [requirements](REQUIREMENTS.md) of the course.
