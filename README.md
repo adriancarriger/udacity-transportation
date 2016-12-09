@@ -4,7 +4,7 @@ This is my second of five projects in the Udacity [Senior Web Developer Nanodegr
 
 ## Demo
 
-To view the state of this project, checkout the demo at: [https://adriancarriger.github.io/udacity-transportation/](https://adriancarriger.github.io/udacity-transportation/)
+Checkout the demo at: [https://adriancarriger.github.io/udacity-transportation/](https://adriancarriger.github.io/udacity-transportation/)
 
 <a href="https://adriancarriger.github.io/udacity-transportation/">
   <img alt="home page top" src="https://raw.githubusercontent.com/adriancarriger/udacity-transportation/master/images/example-1.png" width="200px">
